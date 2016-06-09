@@ -27,15 +27,15 @@ io.on('connection', function(socket){
 
 var CheckNumberUsers = function(){
   if (NumConnected === 1) {
-    console.log('Waiting for another player...');
+    io.emit('chat message', 'Waiting for another player...');
   } else if (NumConnected === 2) {
-    console.log("Awesome, let's begin playing!");
+    io.emit('chat message', "Awesome, let's begin playing!");
   } else if (NumConnected > 2) {
-    console.log("Too many players online!");
-    console.log("My goodness, I haven't the slightest idea what to do.");
+    io.emit('chat message', "Too many players online!  " + NumConnected + " total.");
+    io.emit('chat message', "My goodness, I haven't the slightest idea what to do.");
   } else {
-    console.log("Sorry, something's wrong with the connection.");
-    console.log("Try refreshing the page.");
+    io.emit('chat message', "Sorry, something's wrong with the connection.");
+    io.emit('chat message', "Try refreshing the page.");
   }
 };
 
