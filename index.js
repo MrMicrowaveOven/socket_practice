@@ -13,6 +13,19 @@ io.on('connection', function(socket){
   NumConnected++;
   console.log('a user connected');
   console.log(NumConnected + ' people connected');
+  CheckNumberUsers();
+  socket.on('disconnect', function(){
+    NumConnected--;
+    console.log('user disconnected');
+    console.log(NumConnected + ' people connected');
+    CheckNumberUsers();
+  });
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+});
+
+var CheckNumberUsers = function(){
   if (NumConnected === 1) {
     console.log('Waiting for another player...');
   } else if (NumConnected === 2) {
@@ -24,16 +37,7 @@ io.on('connection', function(socket){
     console.log("Sorry, something's wrong with the connection.");
     console.log("Try refreshing the page.");
   }
-  socket.on('disconnect', function(){
-    NumConnected--;
-    console.log('user disconnected');
-    console.log(NumConnected + ' people connected');
-  });
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
-});
-
+};
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
